@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
   def organization_code
     organization = current_user.organization
     organization.generate_invitation_code! if organization.invitation_code_expired?
-    render json: { organization_code: organization.invitation_code }, status: :ok
+    render json: { organization: { code: organization.invitation_code, id: organization.id } }, status: :ok
   end
 
   private
