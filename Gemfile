@@ -20,6 +20,7 @@ gem "puma", "~> 5.0"
 
 gem 'devise'
 gem 'devise-jwt', "~> 0.10.0"
+gem 'dotenv-rails'
 gem 'jsonapi-serializer'
 gem 'warden-jwt_auth', "~> 0.6"
 
