@@ -4,11 +4,12 @@ class Organization < ApplicationRecord
 
   def generate_invitation_code!
     self.invitation_code = SecureRandom.hex(8)
-    self.invitation_code_expires_at = Time.now + 2.minutes
+    self.invitation_code_created_at = Time.now
     save!
   end
 
   def invitation_code_expired?
-    invitation_code_expires_at.present? && invitation_code_expires_at < Time.now
+    !invitation_code_created_at.present? ||
+    invitation_code_created_at.present? && Time.now > invitation_code_created_at + ENV["EXPIRATION_TIME"].to_i.minutes
   end
 end

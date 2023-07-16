@@ -21,16 +21,19 @@ class OrganizationsController < ApplicationController
   def join_organization
     if valid_invitation_code?(params[:invitation_code])
       current_user.organization = Organization.find_by(invitation_code: params[:invitation_code])
-      current_user.save!
-      render json: { message: "Joined organization successfully"}, status: :ok
+      if current_user.save
+        render json: { message: "Joined organization successfully", data: { organization_id: current_user.organization.id} }, status: :ok
+      else
+        render json: { message: "Couldnt assign org to user" }, status: :unprocessable_entity
+      end
     else
-      render json: { message: "Invalid invitation code" }, status: :unauthorized
+      render json: { message: "Invitation code has expired" }, status: :unauthorized
     end
   end
 
   def organization_code
     organization = current_user.organization
-    organization.generate_invitation_code!
+    organization.generate_invitation_code! if organization.invitation_code_expired?
     render json: { organization_code: organization.invitation_code }, status: :ok
   end
 
