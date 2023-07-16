@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
     if valid_invitation_code?(params[:invitation_code])
       current_user.organization = Organization.find_by(invitation_code: params[:invitation_code])
       if current_user.save
-        render json: { message: "Joined organization successfully", data: { organization_id: current_user.organization.id} }, status: :ok
+        render json: { message: "Joined organization successfully", data: { organization_id: current_user.organization_id} }, status: :ok
       else
         render json: { message: "Couldnt assign org to user" }, status: :unprocessable_entity
       end
