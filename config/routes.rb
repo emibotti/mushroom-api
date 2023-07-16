@@ -16,4 +16,8 @@ Rails.application.routes.draw do
 
   get '/organization_code', to: 'organizations#organization_code'
   post '/join_organization', to: 'organizations#join_organization'
+  
+  resources :rooms, only: [:index, :show, :create] do
+    post :create_inspection, on: :member
+  end
 end
