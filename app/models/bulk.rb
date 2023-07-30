@@ -1,0 +1,2 @@
+class Bulk < Mycelium
+end

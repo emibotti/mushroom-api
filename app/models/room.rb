@@ -1,5 +1,8 @@
 class Room < ApplicationRecord
-  validates :name, presence: true
+  include MultiTenancyConcern
 
   has_many :room_inspections
+  belongs_to :organization
+
+  validates :name, presence: true
 end

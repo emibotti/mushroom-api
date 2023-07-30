@@ -1,6 +1,11 @@
 class Organization < ApplicationRecord
   has_many :users
+  has_many :mycelia
+  has_many :rooms
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+
+  cattr_accessor :current_id
 
   def generate_invitation_code!
     self.invitation_code = SecureRandom.hex(8)
