@@ -1,0 +1,3 @@
+class Culture < Mycelium
+end
+

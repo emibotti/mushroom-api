@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_16_214236) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_25_210429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_214236) do
     t.string "prefix"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_mycelia_on_organization_id"
     t.index ["strain_source_id"], name: "index_mycelia_on_strain_source_id"
   end
 
@@ -58,6 +60,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_214236) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_rooms_on_organization_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,5 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_214236) do
   end
 
   add_foreign_key "mycelia", "mycelia", column: "strain_source_id"
+  add_foreign_key "mycelia", "organizations"
   add_foreign_key "room_inspections", "rooms"
+  add_foreign_key "rooms", "organizations"
 end

@@ -35,6 +35,6 @@ class MyceliaController < ApplicationController
   private
 
   def mycelium_params
-    params.require(:mycelium).permit(:name, :type, :species, :inoculation_date, :strain_source_id, :generation, :external_provider, :substrate, :container, :strain_description, :shelf_time, :image_url, :weight, :prefix)
+    params.permit(:name, :type, :species, :inoculation_date, :strain_source_id, :generation, :external_provider, :substrate, :container, :strain_description, :shelf_time, :image_url, :weight, :prefix)
   end
 end

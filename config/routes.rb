@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   resources :rooms, only: [:index, :show, :create] do
     post :create_inspection, on: :member
   end
+
+  resources :mycelia
 end
