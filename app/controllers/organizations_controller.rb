@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
+  skip_before_action :set_current_organization
 
   def show
     organization = Organization.find(params[:id])
