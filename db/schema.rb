@@ -32,7 +32,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "organization_id", null: false
+    t.bigint "room_id"
     t.index ["organization_id"], name: "index_mycelia_on_organization_id"
+    t.index ["room_id"], name: "index_mycelia_on_room_id"
     t.index ["strain_source_id"], name: "index_mycelia_on_strain_source_id"
   end
 
@@ -94,6 +96,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
   add_foreign_key "mycelia", "mycelia", column: "strain_source_id"
   add_foreign_key "mycelia", "organizations"
   add_foreign_key "prefix_counts", "organizations"
+  add_foreign_key "mycelia", "rooms"
   add_foreign_key "room_inspections", "rooms"
   add_foreign_key "rooms", "organizations"
 end

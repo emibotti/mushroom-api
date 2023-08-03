@@ -3,6 +3,7 @@ class Mycelium < ApplicationRecord
 
   belongs_to :strain_source, class_name: 'Mycelium', optional: true
   belongs_to :organization
+  belongs_to :room, optional: true
 
   enum type: { Culture: 0, Spawn: 1, Bulk: 2, Fruit: 3 }
   enum substrate: { wood: 0, straw: 1, sawdust: 2, compost: 3 }
