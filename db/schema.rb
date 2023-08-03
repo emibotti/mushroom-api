@@ -43,7 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "invitation_code"
-    t.datetime "invitation_code_expires_at"
     t.datetime "invitation_code_created_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
@@ -95,8 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
 
   add_foreign_key "mycelia", "mycelia", column: "strain_source_id"
   add_foreign_key "mycelia", "organizations"
-  add_foreign_key "prefix_counts", "organizations"
   add_foreign_key "mycelia", "rooms"
+  add_foreign_key "prefix_counts", "organizations"
   add_foreign_key "room_inspections", "rooms"
   add_foreign_key "rooms", "organizations"
 end

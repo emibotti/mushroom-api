@@ -9,10 +9,10 @@ class Organization < ApplicationRecord
   before_create :generate_invitation_code
 
   def to_json
-    { organization: { code: invitation_code, id: id } }
+    { organization: { code: get_invitation_code, id: id } }
   end
 
-  def invitation_code
+  def get_invitation_code
     return invitation_code unless invitation_code_expired?
 
     generate_invitation_code

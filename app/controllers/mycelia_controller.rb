@@ -22,7 +22,7 @@ class MyceliaController < ApplicationController
 
     prefix = mycelium_params[:prefix]
     quantity = params[:quantity].to_i
-    debugger
+
     ActiveRecord::Base.transaction do
       prefix_count = PrefixCount.find_or_create_by!(prefix: prefix, organization_id: current_user.organization_id)
       start_count = prefix_count.count + 1
