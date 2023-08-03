@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_210429) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,8 +41,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_210429) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "invitation_code"
+    t.datetime "invitation_code_expires_at"
     t.datetime "invitation_code_created_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
+  end
+
+  create_table "prefix_counts", force: :cascade do |t|
+    t.string "prefix", null: false
+    t.integer "count", default: 0, null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_prefix_counts_on_organization_id"
+    t.index ["prefix", "organization_id"], name: "index_prefix_counts_on_prefix_and_organization_id", unique: true
   end
 
   create_table "room_inspections", force: :cascade do |t|
@@ -82,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_210429) do
 
   add_foreign_key "mycelia", "mycelia", column: "strain_source_id"
   add_foreign_key "mycelia", "organizations"
+  add_foreign_key "prefix_counts", "organizations"
   add_foreign_key "room_inspections", "rooms"
   add_foreign_key "rooms", "organizations"
 end
