@@ -3,7 +3,7 @@ class MyceliaController < ApplicationController
 
   def index
     mycelia = Mycelium.all
-    render json: mycelia, satus: :ok
+    render json: mycelia, status: :ok
   end
 
   def show
