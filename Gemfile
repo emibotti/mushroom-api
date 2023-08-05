@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://www.rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
@@ -57,5 +57,8 @@ end
 
 group :test do
   gem "rspec-rails", "~> 6.0"
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'shoulda-matchers'
 end
 
