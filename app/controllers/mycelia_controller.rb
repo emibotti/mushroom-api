@@ -3,12 +3,12 @@ class MyceliaController < ApplicationController
 
   def index
     mycelia = Mycelium.all
-    render json: mycelia, satus: :ok
+    render json: MyceliumSerializer.render(mycelia, view: :card), status: :ok
   end
 
   def show
     mycelium = Mycelium.find(params[:id])
-    render json: mycelium, status: :ok
+    render json: MyceliumSerializer.render(mycelium, view: :show), status: :ok
   end
 
   def create
@@ -55,6 +55,22 @@ class MyceliaController < ApplicationController
     mycelium = Mycelium.find(params[:id])
     mycelium.destroy
     head :no_content
+  end
+
+  def options
+    species_options = Mycelium.species.keys.map do |key|
+      { translated_label: I18n.t("mycelium.species.#{key}"), value: key }
+    end
+
+    substrate_options = Mycelium.substrates.keys.map do |key|
+      { translated_label: I18n.t("mycelium.substrates.#{key}"), value: key }
+    end
+
+    container_options = Mycelium.containers.keys.map do |key|
+      { translated_label: I18n.t("mycelium.containers.#{key}"), value: key }
+    end
+
+    render json: { species: species_options, substrates: substrate_options, containers: container_options }
   end
 
   private

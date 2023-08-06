@@ -21,5 +21,9 @@ Rails.application.routes.draw do
     post :create_inspection, on: :member
   end
 
-  resources :mycelia
+  resources :mycelia do
+    collection do
+      get :options
+    end
+  end
 end
