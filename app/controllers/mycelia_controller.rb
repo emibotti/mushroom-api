@@ -24,6 +24,7 @@ class MyceliaController < ApplicationController
 
     prefix = mycelium_params[:prefix]
     quantity = params[:quantity].to_i
+    generated_names = []
 
     ActiveRecord::Base.transaction do
       prefix_count = PrefixCount.find_or_create_by!(prefix: prefix, organization_id: current_user.organization_id)
@@ -31,11 +32,13 @@ class MyceliaController < ApplicationController
       prefix_count.increment!(:count, quantity)
 
       quantity.times do |i|
-        mycelium_class.create!(name: "#{prefix}-#{start_count + i}", inoculation_date: Time.now, **mycelium_params, generation: generation)
+        name = "#{prefix}-#{start_count + i}"        
+        mycelium_class.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
+        generated_names.push name
       end
     end
 
-    render json: { message: "#{quantity} mycelia created successfully" }, status: :created
+    render json: { names: generated_names, message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
