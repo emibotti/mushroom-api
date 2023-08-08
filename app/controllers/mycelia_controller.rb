@@ -13,10 +13,9 @@ class MyceliaController < ApplicationController
 
   def create
     generation = mycelium_params[:generation].to_i
-    mycelium_class = mycelium_params[:type].constantize
     # Inoculation
     if mycelium_params[:strain_source_id]
-      mycelium_father = mycelium_class.find(mycelium_params[:strain_source_id])
+      mycelium_father = Mycelium.find(mycelium_params[:strain_source_id])
 
       generation = mycelium_father.generation
       generation += 1 if mycelium_father.type === mycelium_params[:type]
@@ -33,7 +32,7 @@ class MyceliaController < ApplicationController
 
       quantity.times do |i|
         name = "#{prefix}-#{start_count + i}"        
-        mycelium_class.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
+        Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
         generated_names.push name
       end
     end
