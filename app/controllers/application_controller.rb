@@ -8,6 +8,8 @@ class ApplicationController < ActionController::API
   end
 
   def set_locale
-    I18n.locale = request.headers['Accept-Language'] || I18n.default_locale
+    accept_language = request.headers['Accept-Language']
+    locale = accept_language&.split('-')&.first || I18n.default_locale
+    I18n.locale = locale if I18n.available_locales.include?(locale.to_sym)
   end
 end
