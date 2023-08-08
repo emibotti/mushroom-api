@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :mycelium do
     name { "Prefix-#{Faker::Number.number(digits: 4)}" }
     type { "Culture" }
-    species { "Shiitake" }
+    species { "agaricus_bisporus" }
     inoculation_date { Time.now }
     generation { 1 }
     prefix { "Prefix-#{Faker::Number.number(digits: 4)}" }

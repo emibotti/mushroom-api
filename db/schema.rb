@@ -43,7 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_185640) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "invitation_code"
-    t.datetime "invitation_code_expires_at"
     t.datetime "invitation_code_created_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
