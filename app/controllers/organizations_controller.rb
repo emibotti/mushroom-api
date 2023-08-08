@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
+  skip_before_action :set_current_organization
 
   def show
     organization = Organization.find(params[:id])
@@ -10,7 +11,7 @@ class OrganizationsController < ApplicationController
     organization = Organization.create!(name: params[:name])
     current_user.organization = organization
     if current_user.save
-      render json: organization, status: :ok
+      render json: organization.to_json, status: :ok
     else
       render json: { message: "Couldnt assign org to user" }, status: :unprocessable_entity
     end
@@ -24,17 +25,18 @@ class OrganizationsController < ApplicationController
       if current_user.save
         render json: { message: "Joined organization successfully", data: { organization_id: current_user.organization_id} }, status: :ok
       else
-        render json: { message: "Couldnt assign org to user" }, status: :unprocessable_entity
+        render json: { message: "Couldn't assign org to user" }, status: :unprocessable_entity
       end
     else
-      render json: { message: "Invitation code has expired" }, status: :unauthorized
+      render json: { message: "Invitation code has expired" }, status: :not_acceptable
     end
   end
 
   def organization_code
     organization = current_user.organization
-    organization.generate_invitation_code! if organization.invitation_code_expired?
-    render json: { organization: { code: organization.invitation_code, id: organization.id } }, status: :ok
+    render json: organization.to_json, status: :ok
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: { message: invalid.record.errors.full_messages.first }, status: :unprocessable_entity
   end
 
   private

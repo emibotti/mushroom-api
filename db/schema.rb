@@ -10,9 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_16_180031) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "mycelia", force: :cascade do |t|
+    t.string "name"
+    t.integer "type"
+    t.string "species"
+    t.datetime "inoculation_date"
+    t.bigint "strain_source_id"
+    t.integer "generation"
+    t.string "external_provider"
+    t.integer "substrate"
+    t.integer "container"
+    t.string "strain_description"
+    t.integer "shelf_time"
+    t.string "image_url"
+    t.float "weight"
+    t.string "prefix"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.bigint "room_id"
+    t.index ["organization_id"], name: "index_mycelia_on_organization_id"
+    t.index ["room_id"], name: "index_mycelia_on_room_id"
+    t.index ["strain_source_id"], name: "index_mycelia_on_strain_source_id"
+  end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
@@ -21,6 +45,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_180031) do
     t.string "invitation_code"
     t.datetime "invitation_code_created_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
+  end
+
+  create_table "prefix_counts", force: :cascade do |t|
+    t.string "prefix", null: false
+    t.integer "count", default: 0, null: false
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_prefix_counts_on_organization_id"
+    t.index ["prefix", "organization_id"], name: "index_prefix_counts_on_prefix_and_organization_id", unique: true
   end
 
   create_table "room_inspections", force: :cascade do |t|
@@ -38,6 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_180031) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_rooms_on_organization_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -56,5 +92,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_16_180031) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "mycelia", "mycelia", column: "strain_source_id"
+  add_foreign_key "mycelia", "organizations"
+  add_foreign_key "mycelia", "rooms"
+  add_foreign_key "prefix_counts", "organizations"
   add_foreign_key "room_inspections", "rooms"
+  add_foreign_key "rooms", "organizations"
 end

@@ -1,0 +1,2 @@
+class Spawn < Mycelium
+end
