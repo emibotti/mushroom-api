@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_02_214125) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_03_234608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "mycelia", force: :cascade do |t|
     t.string "name"
-    t.integer "type"
+    t.string "type"
     t.string "species"
     t.datetime "inoculation_date"
     t.bigint "strain_source_id"
