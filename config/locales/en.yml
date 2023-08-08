@@ -30,4 +30,41 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  mycelium:
+    species:
+      agaricus_bisporus: "Agaricus Bisporus (White Button)"
+      pleurotus_ostreatus: "Pleurotus Ostreatus (Oyster Mushroom)"
+      lentinula_edodes: "Lentinula Edodes (Shiitake)"
+      ganoderma_lucidum: "Ganoderma Lucidum (Reishi)"
+      coprinus_comatus: "Coprinus Comatus (Shaggy Mane)"
+      morchella_esculenta: "Morchella Esculenta (Morel)"
+      tricholoma_matsutake: "Tricholoma Matsutake (Matsutake)"
+      flammulina_velutipes: "Flammulina Velutipes (Enoki)"
+      hericium_erinaceus: "Hericium Erinaceus (Lion's Mane)"
+      grifola_frondosa: "Grifola Frondosa (Maitake)"
+      armillaria_mellea: "Armillaria Mellea (Honey Fungus)"
+      boletus_edulis: "Boletus Edulis (King Bolete)"
+      cantharellus_cibarius: "Cantharellus Cibarius (Chanterelle)"
+      tuber_melanosporum: "Tuber Melanosporum (Black Truffle)"
+      cordyceps: "Cordyceps"
+      trametes_versicolor: "Trametes versicolor (Turkey Tail)"
+    substrates:
+      grain: "Grain (Wheat, Rye, Barley)"
+      sawdust: "Sawdust"
+      wood_chips: "Wood Chips"
+      straw: "Straw"
+      compost: "Compost (Manure-based)"
+      gypsum: "Gypsum"
+      coffee_grounds: "Coffee Grounds"
+      brown_rice_flour: "Brown Rice Flour"
+      peat_moss: "Peat Moss"
+      agar: "Agar"
+      malt_extract: "Malt Extract"
+      agar_with_grain: "Agar with Grain"
+      liquid_culture: "Liquid Culture"
+    containers:
+      petri_dish: "Petri Dish"
+      test_tube: "Test Tube"
+      mason_jar: "Mason Jar"
+      spawn_bag: "Spawn Bag"
+      bulk_tray: "Bulk Tray"

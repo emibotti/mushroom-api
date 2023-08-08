@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_03_234608) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_185640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,8 +22,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_234608) do
     t.bigint "strain_source_id"
     t.integer "generation"
     t.string "external_provider"
-    t.integer "substrate"
-    t.integer "container"
+    t.string "substrate"
+    t.string "container"
     t.string "strain_description"
     t.integer "shelf_time"
     t.string "image_url"
@@ -43,6 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_234608) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "invitation_code"
+    t.datetime "invitation_code_expires_at"
     t.datetime "invitation_code_created_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
