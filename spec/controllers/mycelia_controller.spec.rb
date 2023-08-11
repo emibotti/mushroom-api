@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe MyceliaController, type: :controller do
-  let(:mycelium) { create(:mycelium) }
+  let(:organization) { create(:organization) }
+  let(:mycelium) { create(:mycelium, organization: organization) }
 
-  let(:user) { create(:user) } # Assuming you have a factory for User
+  let(:user) { create(:user, organization: organization) } # Assuming you have a factory for User
 
   before do
     sign_in user
@@ -11,7 +12,7 @@ RSpec.describe MyceliaController, type: :controller do
 
   describe 'GET #index' do
     it 'returns a success response' do
-      create_list(:mycelium, 3)
+      create_list(:mycelium, 3, organization: organization)
       get :index
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body).size).to eq(3)
@@ -40,7 +41,7 @@ RSpec.describe MyceliaController, type: :controller do
       )
     end
 
-    let(:invalid_attributes) { valid_attributes.merge(name: nil) }
+    let(:invalid_attributes) { valid_attributes.merge(prefix: nil) }
 
     context 'with valid params' do
       it 'creates the specified quantity of Mycelium' do
