@@ -9,12 +9,14 @@ class MyceliaController < ApplicationController
   def show
     mycelium = Mycelium.find(params[:id])
     render json: MyceliumSerializer.render(mycelium, view: :show), status: :ok
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   def create
     generation = mycelium_params[:generation].to_i
     # Inoculation
-    if mycelium_params[:strain_source_id]
+    if mycelium_params[:strain_source_id].present?
       mycelium_father = Mycelium.find(mycelium_params[:strain_source_id])
 
       generation = mycelium_father.generation
@@ -40,6 +42,8 @@ class MyceliaController < ApplicationController
     render json: { names: generated_names, message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   def update
@@ -48,12 +52,16 @@ class MyceliaController < ApplicationController
     render json: mycelium, status: :ok
   rescue ActiveRecord::RecordInvalid => invalid
     render json: { message: invalid.record.errors.full_messages.first }, status: :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   def destroy
     mycelium = Mycelium.find(params[:id])
     mycelium.destroy
     head :no_content
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   def options
