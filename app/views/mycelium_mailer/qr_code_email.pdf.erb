@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <% @mycelia.each do |mycelium| %>
+      <div style="page-break-after: always;">
+        <img src="<%= Rails.root.join('tmp', "#{mycelium.name}.svg") %>" alt="QR Code">
+
+        <p>
+          Mycelium Name: <%= mycelium.name %>
+        </p>
+        <p>
+          Species: <%= mycelium.species %>
+        </p>
+        <p>
+          Inoculation Date: <%= mycelium.inoculation_date %>
+        </p>
+      </div>
+    <% end %>
+  </body>
+</html>

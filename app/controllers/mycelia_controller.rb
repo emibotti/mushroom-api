@@ -26,6 +26,7 @@ class MyceliaController < ApplicationController
     prefix = mycelium_params[:prefix]
     quantity = params[:quantity].to_i
     generated_names = []
+    generated_mycelia = []
 
     ActiveRecord::Base.transaction do
       prefix_count = PrefixCount.find_or_create_by!(prefix: prefix, organization_id: current_user.organization_id)
@@ -34,11 +35,13 @@ class MyceliaController < ApplicationController
 
       quantity.times do |i|
         name = "#{prefix}-#{start_count + i}"        
-        Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
+        mycelium = Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
         generated_names.push name
+        generated_mycelia.push mycelium
       end
     end
 
+    MyceliumMailer.qr_code_email(generated_mycelia, current_user).deliver_now
     render json: { names: generated_names, message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -78,6 +81,11 @@ class MyceliaController < ApplicationController
     end
 
     render json: { species: species_options, substrates: substrate_options, containers: container_options }
+  end
+
+  def qr_code
+    mycelium = Mycelium.find(params[:id])
+    MyceliumMailer.qr_code_email(mycelium, current_user).deliver_now
   end
 
   private
