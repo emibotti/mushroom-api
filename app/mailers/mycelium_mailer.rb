@@ -1,4 +1,6 @@
 class MyceliumMailer < ApplicationMailer
+  include MyceliumMailerHelper
+
   def qr_code_email(mycelia, user)
     @mycelia = mycelia
     generate_qr_codes(mycelia)
@@ -9,19 +11,31 @@ class MyceliumMailer < ApplicationMailer
     mail(to: user.email, subject: 'QR Code Email') do |format|
       format.html { render layout: 'mailer' }
     end
-    # File.delete(Rails.root.join('tmp', 'qr_code.svg'))
+    mycelia.each do |mycelium|
+      svg_file_path = Rails.root.join('tmp', "#{mycelium.organization_id.to_s + '-' + mycelium.name}.svg")
+
+      begin
+        File.delete(svg_file_path)
+      rescue => e
+        Rails.logger.error("Error deleting SVG file: #{e.message}")
+      end
+    end
   end
   
   private
 
   def generate_qr_codes(mycelia)
     mycelia.each do |mycelium|
-      qr = RQRCode::QRCode.new(mycelium_url(mycelium))
+      qr = RQRCode::QRCode.new("mushroom://mycelium/#{mycelium.id}") 
       svg_qr_code = qr.as_svg
-      svg_file_path = Rails.root.join('tmp', "#{mycelium.name}.svg")
+      svg_file_path = Rails.root.join('tmp', "#{mycelium.organization_id.to_s + '-' + mycelium.name}.svg")
 
-      File.open(svg_file_path, 'w') do |file|
-        file.write(svg_qr_code)
+      begin
+        File.open(svg_file_path, 'w') do |file|
+          file.write(svg_qr_code)
+        end
+      rescue => e
+        Rails.logger.error("Error writing SVG file: #{e.message}")
       end
     end
   end

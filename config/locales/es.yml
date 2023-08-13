@@ -37,3 +37,7 @@ es:
       mason_jar: "Frasco Mason"
       spawn_bag: "Bolsa de Semilla"
       bulk_tray: "Bandeja a Granel"
+  labels:
+    species: "Especie"
+    mycelium_name: "Nombre del micelio"
+    inoculation_date: "Fecha de inoculación"

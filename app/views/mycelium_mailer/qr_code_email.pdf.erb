@@ -11,18 +11,22 @@
         margin-bottom: 20px;
       }
       .mycelium-image {
-        width: 250px;
-        height: 250px;
+        width: 252px;
+        height: 252px;
       }
       .mycelium-details {
-        max-width: 250px;
+        max-width: 252px;
         margin: 0 auto;
         text-align: center;
+        font-size: 14px;
       }
       .clearfix::after {
         content: "";
         display: table;
         clear: both;
+      }
+      body {
+        font-family: 'Roboto', sans-serif;
       }
     </style>
   </head>
@@ -32,17 +36,17 @@
         <div class="clearfix">
           <% mycelium_batch.each do |mycelium| %>
             <div class="mycelium-tile">
-              <img class="mycelium-image" src="<%= Rails.root.join('tmp', "#{mycelium.name}.svg") %>" alt="QR Code">
+              <img class="mycelium-image" src="<%= Rails.root.join('tmp', "#{mycelium.organization_id.to_s + '-' + mycelium.name}.svg") %>" alt="QR Code">
 
               <div class="mycelium-details">
                 <p>
-                  Mycelium Name: <%= mycelium.name %>
+                  <strong><%= I18n.t("labels.mycelium_name") %>:</strong> <%= mycelium.name %>
                 </p>
                 <p>
-                  Species: <%= mycelium.species %>
+                  <strong><%= I18n.t("labels.species") %>:</strong> <%= I18n.t("mycelium.species.#{mycelium.species}") %>
                 </p>
                 <p>
-                  Inoculation Date: <%= mycelium.inoculation_date %>
+                  <strong><%= I18n.t("labels.inoculation_date") %>:</strong> <%= formatted_inoculation_date(mycelium) %>
                 </p>
               </div>
             </div>
