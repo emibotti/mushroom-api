@@ -80,6 +80,8 @@ class MyceliaController < ApplicationController
       { translated_label: I18n.t("mycelium.containers.#{key}"), value: key }
     end
 
+    rooms = Room.all
+
     render json: { species: species_options, substrates: substrate_options, containers: container_options }
   end
 
