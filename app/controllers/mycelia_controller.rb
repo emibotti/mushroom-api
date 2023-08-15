@@ -40,7 +40,7 @@ class MyceliaController < ApplicationController
     end
 
     MyceliumMailer.qr_code_email(generated_mycelia, current_user).deliver_now
-    
+
     render json: { mycelia: MyceliumSerializer.render(generated_mycelia), message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -78,8 +78,6 @@ class MyceliaController < ApplicationController
     container_options = Mycelium.containers.keys.map do |key|
       { translated_label: I18n.t("mycelium.containers.#{key}"), value: key }
     end
-
-    rooms = Room.all
 
     render json: { species: species_options, substrates: substrate_options, containers: container_options }
   end
