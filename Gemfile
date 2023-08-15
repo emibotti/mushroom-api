@@ -44,6 +44,7 @@ gem "bootsnap", require: false
 gem "rack-cors"
 
 gem "blueprinter"
+gem 'rails-i18n'
 
 gem "rqrcode", "~> 2.2.0"
 
