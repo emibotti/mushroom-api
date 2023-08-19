@@ -27,7 +27,7 @@ class Mycelium < ApplicationRecord
   enum substrate: %i[grain sawdust wood_chips straw compost gypsum coffee_grounds brown_rice_flour agar malt_extract agar_with_grain liquid_culture].index_with(&:to_s)
   enum container: %i[petri_dish test_tube mason_jar spawn_bag bulk_tray].index_with(&:to_s)
 
-  validates :name, :type, :species, :inoculation_date, :generation, :prefix, presence: true
+  validates :name, :type, :species, :inoculation_date, :generation, :prefix, :substrate, :container,  presence: true
   validates :weight, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :shelf_time, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   validates :image_url, format: { with: URI::DEFAULT_PARSER.make_regexp }, allow_blank: true

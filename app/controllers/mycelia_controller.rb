@@ -25,7 +25,7 @@ class MyceliaController < ApplicationController
 
     prefix = mycelium_params[:prefix]
     quantity = params[:quantity].to_i
-    generated_names = []
+    generated_mycelia = []
 
     ActiveRecord::Base.transaction do
       prefix_count = PrefixCount.find_or_create_by!(prefix: prefix, organization_id: current_user.organization_id)
@@ -34,12 +34,14 @@ class MyceliaController < ApplicationController
 
       quantity.times do |i|
         name = "#{prefix}-#{start_count + i}"        
-        Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
-        generated_names.push name
+        mycelium = Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
+        generated_mycelia.push mycelium
       end
     end
 
-    render json: { names: generated_names, message: "#{quantity} mycelia created successfully" }, status: :created
+    MyceliumMailer.qr_code_email(generated_mycelia, current_user).deliver_later
+
+    render json: { mycelia: MyceliumSerializer.render(generated_mycelia), message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   rescue ActiveRecord::RecordNotFound => e
@@ -83,6 +85,6 @@ class MyceliaController < ApplicationController
   private
 
   def mycelium_params
-    params.require(:mycelium).permit(:type, :species, :strain_source_id, :generation, :external_provider, :substrate, :container, :strain_description, :shelf_time, :image_url, :weight, :prefix)
+    params.require(:mycelium).permit(:type, :species, :strain_source_id, :generation, :external_provider, :substrate, :container, :strain_description, :shelf_time, :image_url, :weight, :prefix, :room_id)
   end
 end

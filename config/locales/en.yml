@@ -68,3 +68,9 @@ en:
       mason_jar: "Mason Jar"
       spawn_bag: "Spawn Bag"
       bulk_tray: "Bulk Tray"
+  labels:
+    species: "Species"
+    mycelium_name: "Mycelium name"
+    inoculation_date: "Inoculation date"
+  email:
+    body: "Please find attached the pdf with the QR codes for your newly created mycelia."
