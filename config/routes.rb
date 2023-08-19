@@ -25,9 +25,5 @@ Rails.application.routes.draw do
     collection do
       get :options
     end
-
-    member do
-      get :qr_code
-    end
   end
 end

@@ -41,3 +41,5 @@ es:
     species: "Especie"
     mycelium_name: "Nombre del micelio"
     inoculation_date: "Fecha de inoculación"
+  email:
+    body: "Encontrá en el pdf adjunto los códigos QR para tus nuevos micelos."

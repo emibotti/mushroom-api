@@ -26,7 +26,7 @@ class MyceliumMailer < ApplicationMailer
 
   def generate_qr_codes(mycelia)
     mycelia.each do |mycelium|
-      qr = RQRCode::QRCode.new("mushroom://mycelium/#{mycelium.id}") 
+      qr = RQRCode::QRCode.new("#{ENV.fetch("CUSTOM_URL_SCHEME")}://mycelium/#{mycelium.id}") 
       svg_qr_code = qr.as_svg
       svg_file_path = Rails.root.join('tmp', "#{mycelium.organization_id.to_s + '-' + mycelium.name}.svg")
 

@@ -72,3 +72,5 @@ en:
     species: "Species"
     mycelium_name: "Mycelium name"
     inoculation_date: "Inoculation date"
+  email:
+    body: "Please find attached the pdf with the QR codes for your newly created mycelia."

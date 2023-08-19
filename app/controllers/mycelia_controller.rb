@@ -82,11 +82,6 @@ class MyceliaController < ApplicationController
     render json: { species: species_options, substrates: substrate_options, containers: container_options }
   end
 
-  def qr_code
-    mycelium = Mycelium.find(params[:id])
-    MyceliumMailer.qr_code_email(mycelium, current_user).deliver_now
-  end
-
   private
 
   def mycelium_params
