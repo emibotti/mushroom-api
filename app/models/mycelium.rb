@@ -4,6 +4,7 @@ class Mycelium < ApplicationRecord
   belongs_to :strain_source, class_name: 'Mycelium', optional: true
   belongs_to :organization
   belongs_to :room, optional: true
+  has_many :events
 
   enum species: %i[
     agaricus_bisporus
