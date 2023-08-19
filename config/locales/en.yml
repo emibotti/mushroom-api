@@ -68,3 +68,7 @@ en:
       mason_jar: "Mason Jar"
       spawn_bag: "Spawn Bag"
       bulk_tray: "Bulk Tray"
+  labels:
+    species: "Species"
+    mycelium_name: "Mycelium name"
+    inoculation_date: "Inoculation date"

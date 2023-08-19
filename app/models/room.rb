@@ -6,4 +6,8 @@ class Room < ApplicationRecord
   belongs_to :organization
 
   validates :name, presence: true
+
+  def room_current_measure
+    self.room_inspections.last
+  end
 end
