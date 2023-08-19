@@ -8,7 +8,7 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    organization = Organization.create!(name: params[:name])
+    organization = Organization.create!(name: params[:organization][:name])
     current_user.organization = organization
     if current_user.save
       render json: organization.to_json, status: :ok

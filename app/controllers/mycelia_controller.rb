@@ -39,7 +39,9 @@ class MyceliaController < ApplicationController
       end
     end
 
-    render json: { names: generated_names, message: "#{quantity} mycelia created successfully" }, status: :created
+    MyceliumMailer.qr_code_email(generated_mycelia, current_user).deliver_later
+
+    render json: { mycelia: MyceliumSerializer.render(generated_mycelia), message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   rescue ActiveRecord::RecordNotFound => e

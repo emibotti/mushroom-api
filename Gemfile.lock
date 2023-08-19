@@ -240,6 +240,8 @@ DEPENDENCIES
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.4.2)
+  rails-i18n
+  rqrcode (~> 2.2.0)
   rspec-rails (~> 6.0)
   shoulda-matchers
   tzinfo-data
