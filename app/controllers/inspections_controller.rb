@@ -2,14 +2,13 @@ class InspectionsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    mycelium = Mycelium.find(params[:mycelium_id])
-    events = mycelium.events
-    render json: events
+    events = Event.recursive_events(params[:mycelium_id])
+    render json: EventSerializer.render_as_json(events)
   end
 
   def show
     event = Event.find(params[:id])
-    render json: event
+    render json: EventSerializer.render_as_json(event)
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found
   end
@@ -18,7 +17,7 @@ class InspectionsController < ApplicationController
     event_service = EventService.call(event_params_with_author)
 
     if event_service.success?
-      render json: event_service.result, status: :ok
+      render json: EventSerializer.render_as_json(event_service.result), status: :ok
     else
       render json: { error: event_service.error_details }, status: :unprocessable_entity
     end
@@ -28,7 +27,7 @@ class InspectionsController < ApplicationController
     event_service = EventService.call(event_params_with_id)
 
     if event_service.success?
-      render json: event_service.result, status: :created
+      render json: EventSerializer.render_as_json(event_service.result), status: :created
     else
       render json: { error: event_service.error_details }, status: :unprocessable_entity
     end
