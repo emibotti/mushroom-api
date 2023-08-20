@@ -6,4 +6,5 @@ class User < ApplicationRecord
          :validatable, :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :organization, optional: true
+  has_many :events
 end

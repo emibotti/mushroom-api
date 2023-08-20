@@ -35,13 +35,25 @@ class MyceliaController < ApplicationController
       quantity.times do |i|
         name = "#{prefix}-#{start_count + i}"        
         mycelium = Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
+        EventService.call({ author_id: current_user.id,
+                            author_name: current_user.name,
+                            mycelium_id: mycelium.id,
+                            event_type: "to_#{params[:type].downcase}",
+                            note: "#{mycelium.name}" })
+        if params[:note]
+           EventService.call({ author_id: current_user.id,
+                               author_name: current_user.name,
+                               mycelium_id: mycelium.id,
+                               event_type: "inspection",
+                               note: params[:note] })
+        end
         generated_mycelia.push mycelium
       end
     end
 
     MyceliumMailer.qr_code_email(generated_mycelia, current_user).deliver_later
 
-    render json: { mycelia: MyceliumSerializer.render(generated_mycelia), message: "#{quantity} mycelia created successfully" }, status: :created
+    render json: { mycelia: MyceliumSerializer.render_as_json(generated_mycelia), message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   rescue ActiveRecord::RecordNotFound => e

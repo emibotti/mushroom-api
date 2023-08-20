@@ -2,6 +2,7 @@ class Organization < ApplicationRecord
   has_many :users
   has_many :mycelia
   has_many :rooms
+  has_many :events
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 

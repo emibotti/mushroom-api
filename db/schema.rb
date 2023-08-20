@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_06_185640) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_19_155423) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.string "note"
+    t.bigint "author_id", null: false
+    t.string "author_name"
+    t.bigint "mycelium_id", null: false
+    t.string "event_type"
+    t.bigint "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_events_on_author_id"
+    t.index ["mycelium_id"], name: "index_events_on_mycelium_id"
+    t.index ["organization_id"], name: "index_events_on_organization_id"
+  end
 
   create_table "mycelia", force: :cascade do |t|
     t.string "name"
@@ -86,12 +100,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_06_185640) do
     t.datetime "updated_at", null: false
     t.string "jti", null: false
     t.bigint "organization_id"
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "events", "mycelia"
+  add_foreign_key "events", "organizations"
+  add_foreign_key "events", "users", column: "author_id"
   add_foreign_key "mycelia", "mycelia", column: "strain_source_id"
   add_foreign_key "mycelia", "organizations"
   add_foreign_key "mycelia", "rooms"
