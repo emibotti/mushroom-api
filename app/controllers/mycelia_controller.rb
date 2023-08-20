@@ -15,15 +15,23 @@ class MyceliaController < ApplicationController
 
   def create
     generation = mycelium_params[:generation].to_i
+    species = mycelium_params[:species]
+    strain_description = mycelium_params[:strain_description]
+
     # Inoculation
     if mycelium_params[:strain_source_id].present?
       mycelium_father = Mycelium.find(mycelium_params[:strain_source_id])
 
       generation = mycelium_father.generation
       generation += 1 if mycelium_father.type === mycelium_params[:type]
+
+      species = mycelium_father.species
+      # TODO: Validate if this value is going to change along inoculations
+      strain_description = mycelium_father.strain_description
     end
 
     prefix = mycelium_params[:prefix]
+    # TODO: Check that quantity field is not null
     quantity = params[:quantity].to_i
     generated_mycelia = []
 
@@ -34,7 +42,7 @@ class MyceliaController < ApplicationController
 
       quantity.times do |i|
         name = "#{prefix}-#{start_count + i}"        
-        mycelium = Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation)
+        mycelium = Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation, species: species, strain_description: strain_description)
         EventService.call({ author_id: current_user.id,
                             author_name: current_user.name,
                             mycelium_id: mycelium.id,
