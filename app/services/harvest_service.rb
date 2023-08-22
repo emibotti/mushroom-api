@@ -16,10 +16,14 @@ class HarvestService < ServiceObject
       mycelium = nil
       ActiveRecord::Base.transaction do
         bulk_father.increment!(:flush)
-        new_mycelium_params = @mycelium_params.merge({ name: "#{bulk_father.name + '-' + bulk_father.flush.to_s}", species: bulk_father.species, strain_description: bulk_father.species, flush: bulk_father.flush})
+        new_mycelium_params = @mycelium_params.merge({ name: "#{bulk_father.name + '-' + bulk_father.flush.to_s}", species: bulk_father.species, strain_description: bulk_father.species, flush: bulk_father.flush, container: bulk_father.container, substrate: bulk_father.substrate, generation: bulk_father.generation })
         new_mycelium_params[:type] = 'Fruit'
         mycelium = Mycelium.create!(new_mycelium_params)
-        EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "to_#{@params[:type].downcase}", note: 'Fruit')
+        EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "to_#{@params[:type].downcase}", note: mycelium.name)
+
+        if @params[:note].present?
+          EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "inspection", note: @params[:note])
+        end
       end
   
       @status = :success
