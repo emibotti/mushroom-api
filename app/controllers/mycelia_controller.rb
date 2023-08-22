@@ -29,6 +29,21 @@ class MyceliaController < ApplicationController
     render json: { error: e.message }, status: :not_found
   end
 
+  def harvest
+    harvest_service = HarvestService.new(mycelium_params, current_user, params)
+    harvest_service.call
+    if harvest_service.success?
+      render json: { fruit: MyceliumSerializer.render_as_json(harvest_service.result) }, status: :created
+    else
+      render json: { error: harvest_service.error_details }, status: harvest_service.error_code
+    end
+
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  end
+
   def update
     mycelium = Mycelium.find(params[:id])
     mycelium.update!(mycelium_params)

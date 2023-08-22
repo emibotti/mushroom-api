@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :mycelia do
     collection do
       get :options
+      post :harvest
     end
 
     resources :inspections
