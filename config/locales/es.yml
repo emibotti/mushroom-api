@@ -43,3 +43,7 @@ es:
     inoculation_date: "Fecha de inoculación"
   email:
     body: "Encontrá en el pdf adjunto los códigos QR para tus nuevos micelos."
+  mycelium_controller:
+    weight_required_message:
+      success: "Has establecido el peso para cosechas anteriores, por favor, proporciónalo en este caso también."
+      error: "El peso no se proporcionó en cosechas anteriores."
