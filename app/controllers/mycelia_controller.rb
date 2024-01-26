@@ -90,6 +90,10 @@ class MyceliaController < ApplicationController
     render json: { error: e.message }, status: :not_found
   end
 
+  def archive
+    
+  end
+
   private
 
   def mycelium_params

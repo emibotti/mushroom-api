@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_20_212211) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_26_164751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_20_212211) do
     t.bigint "organization_id", null: false
     t.bigint "room_id"
     t.integer "flush"
+    t.boolean "ready", default: false
+    t.integer "archived"
     t.index ["organization_id"], name: "index_mycelia_on_organization_id"
     t.index ["room_id"], name: "index_mycelia_on_room_id"
     t.index ["strain_source_id"], name: "index_mycelia_on_strain_source_id"
@@ -57,7 +59,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_20_212211) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "invitation_code"
-    t.datetime "invitation_code_expires_at"
     t.datetime "invitation_code_created_at"
     t.index ["name"], name: "index_organizations_on_name", unique: true
   end
