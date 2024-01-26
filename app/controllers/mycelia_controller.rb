@@ -33,6 +33,7 @@ class MyceliaController < ApplicationController
     harvest_service = HarvestService.new(mycelium_params, current_user, params)
     harvest_service.call
     if harvest_service.success?
+      MyceliumMailer.qr_code_email(harvest_service.result, current_user).deliver_later
       render json: { fruit: MyceliumSerializer.render_as_json(harvest_service.result) }, status: :created
     else
       render json: { error: harvest_service.error_details }, status: harvest_service.error_code
