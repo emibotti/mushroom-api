@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     collection do
       get :options
       post :harvest
+    end
+
+    member do
       get :weight_required
     end
 

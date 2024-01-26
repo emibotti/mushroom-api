@@ -79,7 +79,7 @@ class MyceliaController < ApplicationController
   end
 
   def weight_required
-    result = Mycelium.where(strain_source_id: mycelium_params[:strain_source_id], type: 'Fruit', weight: !nil).exists?
+    result = Mycelium.where(strain_source_id: params[:id], type: 'Fruit', weight: !nil).exists?
     if result
       render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.success') }, status: :ok
     else
