@@ -48,6 +48,9 @@ class MyceliumService < ServiceObject
         mycelium = Mycelium.create!(name: name, **@mycelium_params, generation: generation, species: species, strain_description: strain_description)
         EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "to_#{@params[:type].downcase}", note: mycelium.name)
 
+        # Hacer log de cambio de cuarto si viene el param en la creación.. hacerlo con `if`
+        # EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "room_change", note: @params[:])
+
         if @params[:note].present?
           EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "inspection", note: @params[:note])
         end
