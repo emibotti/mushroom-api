@@ -16,7 +16,14 @@ class HarvestService < ServiceObject
       mycelium = nil
       ActiveRecord::Base.transaction do
         bulk_father.increment!(:flush)
-        new_mycelium_params = @mycelium_params.merge({ name: "#{bulk_father.name + '-' + bulk_father.flush.to_s}", species: bulk_father.species, strain_description: bulk_father.species, flush: bulk_father.flush, container: bulk_father.container, substrate: bulk_father.substrate, generation: bulk_father.generation })
+        prefix_count = PrefixCount.find_or_create_by!(prefix: bulk_father.name, organization_id: @current_user.organization_id)
+        start_count = prefix_count.count + 1
+        prefix_count.increment!(:count)
+        prefix = bulk_father.name
+        new_mycelium_params = @mycelium_params.merge({ name: "#{prefix + '-' + start_count.to_s}", species: bulk_father.species,
+                                                       strain_description: bulk_father.species, flush: bulk_father.flush,
+                                                       container: bulk_father.container, substrate: bulk_father.substrate,
+                                                       generation: bulk_father.generation, prefix: prefix })
         new_mycelium_params[:type] = 'Fruit'
         mycelium = Mycelium.create!(new_mycelium_params)
         EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "to_fruit", note: mycelium.name)
@@ -27,7 +34,7 @@ class HarvestService < ServiceObject
       end
   
       @status = :success
-      @result = mycelium
+      @result = [mycelium]
     rescue ActiveRecord::RecordInvalid => e
       @status = :error
       @error_code = :unprocessable_entity
