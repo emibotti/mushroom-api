@@ -79,11 +79,11 @@ class MyceliaController < ApplicationController
   end
 
   def weight_required
-    result = Mycelium.where(strain_source_id: params[:id], type: 'Fruit', weight: !nil).exists?
+    result = Mycelium.where(strain_source_id: params[:id], type: 'Fruit').where.not(weight: nil).exists?
     if result
       render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.success') }, status: :ok
     else
-      render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.error') }, status: :not_found
+      render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.error') }, status: :ok
     end
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found

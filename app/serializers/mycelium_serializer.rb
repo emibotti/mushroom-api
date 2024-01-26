@@ -31,6 +31,7 @@ class MyceliumSerializer < Blueprinter::Base
     field :created_at
     field :updated_at
     field :organization_id
+    field :flush
     association :strain_source, blueprint: MyceliumSerializer
     association :room, blueprint: RoomSerializer
   end
