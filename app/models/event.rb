@@ -14,7 +14,7 @@ class Event < ApplicationRecord
   belongs_to :mycelium
   belongs_to :organization
 
-  def self.recursive_events(mycelium_id)
+  def self.get_history(mycelium_id)
     query = <<-SQL
       WITH RECURSIVE event_hierarchy AS (
         SELECT e.*

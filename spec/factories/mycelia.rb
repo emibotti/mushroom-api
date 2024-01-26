@@ -3,7 +3,6 @@ FactoryBot.define do
     name { "Prefix-#{Faker::Number.number(digits: 4)}" }
     type { "Culture" }
     species { "agaricus_bisporus" }
-    inoculation_date { Time.now }
     generation { 1 }
     prefix { "Prefix-#{Faker::Number.number(digits: 4)}" }
     substrate { Mycelium.substrates.keys.sample }

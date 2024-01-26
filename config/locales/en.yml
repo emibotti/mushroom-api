@@ -74,3 +74,7 @@ en:
     inoculation_date: "Inoculation date"
   email:
     body: "Please find attached the pdf with the QR codes for your newly created mycelia."
+  mycelium_controller:
+    weight_required_message:
+      success: "You set the weight for previous flushes, please provide it in this case as well."
+      error: "Weight wasn't provided in previous flushes."

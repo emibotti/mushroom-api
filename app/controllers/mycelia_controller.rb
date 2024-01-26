@@ -14,54 +14,31 @@ class MyceliaController < ApplicationController
   end
 
   def create
-    generation = mycelium_params[:generation].to_i
-    species = mycelium_params[:species]
-    strain_description = mycelium_params[:strain_description]
-
-    # Inoculation
-    if mycelium_params[:strain_source_id].present?
-      mycelium_father = Mycelium.find(mycelium_params[:strain_source_id])
-
-      generation = mycelium_father.generation
-      generation += 1 if mycelium_father.type === mycelium_params[:type]
-
-      species = mycelium_father.species
-      # TODO: Validate if this value is going to change along inoculations
-      strain_description = mycelium_father.strain_description
+    mycelium_service = MyceliumService.new(mycelium_params, current_user, params)
+    mycelium_service.call
+    if mycelium_service.success?
+      MyceliumMailer.qr_code_email(mycelium_service.result, current_user).deliver_later
+      render json: { mycelia: MyceliumSerializer.render_as_json(mycelium_service.result), message: "#{params[:quantity]} mycelia created successfully" }, status: :created
+    else
+      render json: { error: mycelium_service.error_details }, status: mycelium_service.error_code
     end
 
-    prefix = mycelium_params[:prefix]
-    # TODO: Check that quantity field is not null
-    quantity = params[:quantity].to_i
-    generated_mycelia = []
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  end
 
-    ActiveRecord::Base.transaction do
-      prefix_count = PrefixCount.find_or_create_by!(prefix: prefix, organization_id: current_user.organization_id)
-      start_count = prefix_count.count + 1
-      prefix_count.increment!(:count, quantity)
-
-      quantity.times do |i|
-        name = "#{prefix}-#{start_count + i}"        
-        mycelium = Mycelium.create!(name: name, inoculation_date: Time.now, **mycelium_params, generation: generation, species: species, strain_description: strain_description)
-        EventService.call({ author_id: current_user.id,
-                            author_name: current_user.name,
-                            mycelium_id: mycelium.id,
-                            event_type: "to_#{params[:type].downcase}",
-                            note: "#{mycelium.name}" })
-        if params[:note]
-           EventService.call({ author_id: current_user.id,
-                               author_name: current_user.name,
-                               mycelium_id: mycelium.id,
-                               event_type: "inspection",
-                               note: params[:note] })
-        end
-        generated_mycelia.push mycelium
-      end
+  def harvest
+    harvest_service = HarvestService.new(mycelium_params, current_user, params)
+    harvest_service.call
+    if harvest_service.success?
+      MyceliumMailer.qr_code_email(harvest_service.result, current_user).deliver_later
+      render json: { fruit: MyceliumSerializer.render_as_json(harvest_service.result) }, status: :created
+    else
+      render json: { error: harvest_service.error_details }, status: harvest_service.error_code
     end
 
-    MyceliumMailer.qr_code_email(generated_mycelia, current_user).deliver_later
-
-    render json: { mycelia: MyceliumSerializer.render_as_json(generated_mycelia), message: "#{quantity} mycelia created successfully" }, status: :created
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   rescue ActiveRecord::RecordNotFound => e
@@ -100,6 +77,17 @@ class MyceliaController < ApplicationController
     end
 
     render json: { species: species_options, substrates: substrate_options, containers: container_options }
+  end
+
+  def weight_required
+    result = Mycelium.where(strain_source_id: params[:id], type: 'Fruit').where.not(weight: nil).exists?
+    if result
+      render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.success') }, status: :ok
+    else
+      render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.error') }, status: :ok
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   private

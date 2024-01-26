@@ -7,7 +7,6 @@ RSpec.describe Mycelium, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:type) }
   it { should validate_presence_of(:species) }
-  it { should validate_presence_of(:inoculation_date) }
   it { should validate_presence_of(:generation) }
   it { should validate_presence_of(:prefix) }
 

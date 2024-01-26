@@ -15,7 +15,6 @@ class MyceliumSerializer < Blueprinter::Base
     field :species do |object|
       I18n.t("mycelium.species.#{object.species}")
     end
-    field :inoculation_date
     field :generation
     field :external_provider
     field :substrate do |object|
@@ -32,6 +31,7 @@ class MyceliumSerializer < Blueprinter::Base
     field :created_at
     field :updated_at
     field :organization_id
+    field :flush
     association :strain_source, blueprint: MyceliumSerializer
     association :room, blueprint: RoomSerializer
   end

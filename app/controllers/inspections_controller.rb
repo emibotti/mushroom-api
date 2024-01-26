@@ -2,7 +2,7 @@ class InspectionsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    events = Event.recursive_events(params[:mycelium_id])
+    events = Event.get_history(params[:mycelium_id])
     render json: EventSerializer.render_as_json(events)
   end
 
