@@ -38,11 +38,6 @@ class MyceliaController < ApplicationController
     else
       render json: { error: harvest_service.error_details }, status: harvest_service.error_code
     end
-
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { error: e.message }, status: :unprocessable_entity
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: e.message }, status: :not_found
   end
 
   def update
@@ -91,7 +86,13 @@ class MyceliaController < ApplicationController
   end
 
   def archive
-    
+    archive_service = ArchiveService.new(mycelium_params, current_user, params)
+    archive_service.call
+    if archive_service.success?
+      render json: { mycelium: MyceliumSerializer.render_as_json(archive_service.result), message: "mycelium successfully archived" }, status: :ok
+    else
+      render json: { error: archive_service.error_details }, status: archive_service.error_code
+    end
   end
 
   private
