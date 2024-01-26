@@ -6,11 +6,7 @@ class MyceliumService < ServiceObject
   end
 
   def call
-    if @mycelium_params[:type] == 'Fruit'
-      harvest
-    else
-      generate_mycelia
-    end
+    generate_mycelia
   end
 
   private

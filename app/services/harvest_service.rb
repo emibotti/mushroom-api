@@ -20,7 +20,7 @@ class HarvestService < ServiceObject
         start_count = prefix_count.count + 1
         prefix_count.increment!(:count)
         prefix = bulk_father.name
-        new_mycelium_params = @mycelium_params.merge({ name: "#{prefix + '-' + prefix_count}", species: bulk_father.species,
+        new_mycelium_params = @mycelium_params.merge({ name: "#{prefix + '-' + start_count.to_s}", species: bulk_father.species,
                                                        strain_description: bulk_father.species, flush: bulk_father.flush,
                                                        container: bulk_father.container, substrate: bulk_father.substrate,
                                                        generation: bulk_father.generation, prefix: prefix })
@@ -34,7 +34,7 @@ class HarvestService < ServiceObject
       end
   
       @status = :success
-      @result = mycelium
+      @result = [mycelium]
     rescue ActiveRecord::RecordInvalid => e
       @status = :error
       @error_code = :unprocessable_entity
