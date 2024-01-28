@@ -25,11 +25,11 @@ Rails.application.routes.draw do
     collection do
       get :options
       post :harvest
-      post :archive
     end
 
     member do
       get :weight_required
+      post :archive
     end
 
     resources :inspections

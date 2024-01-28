@@ -35,9 +35,5 @@ class Mycelium < ApplicationRecord
   validates :shelf_time, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   validates :image_url, format: { with: URI::DEFAULT_PARSER.make_regexp }, allow_blank: true
 
-
-  default_scope do
-    where(archived: nil)
-      .merge(MultiTenancyConcern.default_scoped)
-  end
+  default_scope { where(archived: nil) }
 end

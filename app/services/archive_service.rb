@@ -1,6 +1,5 @@
 class ArchiveService < ServiceObject
-    def initialize(mycelium_params, current_user, params)
-      @mycelium_params = mycelium_params
+    def initialize(current_user, params)
       @current_user = current_user
       @params = params
     end
@@ -12,18 +11,18 @@ class ArchiveService < ServiceObject
     private
   
     def archive
-      mycelium = Mycelium.where(id: @mycelium_params[:id])
+      mycelium = Mycelium.find(@params[:id])
       mycelium.archived = @params[:archived]
       mycelium.save!
 
-      EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: @params[:archived])
+      EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: @params[:id], event_type: @params[:archived])
 
       if @params[:note].present?
-        EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: mycelium.id, event_type: "inspection", note: "#{I18n.t("archive_service.#{@params[:archived]}")}" + ':'+ " #{@params[:note]}")
+        EventService.call(author_id: @current_user.id, author_name: @current_user.name, mycelium_id: @params[:id], event_type: "inspection", note: "#{I18n.t("archive_service.#{@params[:archived]}")}" + ':'+ " #{@params[:note]}")
       end
   
       @status = :success
-      @result = [mycelium]
+      @result = mycelium
     rescue ActiveRecord::RecordInvalid => e
       @status = :error
       @error_code = :unprocessable_entity

@@ -86,13 +86,16 @@ class MyceliaController < ApplicationController
   end
 
   def archive
-    archive_service = ArchiveService.new(mycelium_params, current_user, params)
+    archive_service = ArchiveService.new(current_user, params)
     archive_service.call
     if archive_service.success?
-      render json: { mycelium: MyceliumSerializer.render_as_json(archive_service.result), message: "mycelium successfully archived" }, status: :ok
+      render json: { mycelium: MyceliumSerializer.render_as_json(archive_service.result), message: "Mycelium successfully archived" }, status: :ok
     else
       render json: { error: archive_service.error_details }, status: archive_service.error_code
     end
+
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
   end
 
   private
