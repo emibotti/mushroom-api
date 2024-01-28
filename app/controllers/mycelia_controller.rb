@@ -112,6 +112,14 @@ class MyceliaController < ApplicationController
     render json: { error: e.message }, status: :not_found
   end
 
+  def statistics
+    in_progress = Mycelium.where(ready: false)
+    ready = Mycelium.where(ready: true)
+
+    render json: { in_progress: { count: in_progress.count , mycelia: MyceliumSerializer.render(in_progress, view: :card) },
+                   ready: { count: ready.count , mycelia: MyceliumSerializer.render(ready, view: :card) } }, status: :ok
+  end
+
   private
 
   def mycelium_params
