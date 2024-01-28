@@ -8,6 +8,12 @@ class Event < ApplicationRecord
     to_bulk
     to_fruit
     room_change
+    consumed
+    contaminated
+    sold
+    other
+    ready
+    not_ready
   ].index_with(&:to_s)
 
   belongs_to :author, class_name: 'User'

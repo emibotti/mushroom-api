@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
     member do
       get :weight_required
+      put :archive
+      put :ready
     end
 
     resources :inspections

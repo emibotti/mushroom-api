@@ -38,11 +38,6 @@ class MyceliaController < ApplicationController
     else
       render json: { error: harvest_service.error_details }, status: harvest_service.error_code
     end
-
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { error: e.message }, status: :unprocessable_entity
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: e.message }, status: :not_found
   end
 
   def update
@@ -86,6 +81,33 @@ class MyceliaController < ApplicationController
     else
       render json: { result: result, message: I18n.t('mycelium_controller.weight_required_message.error') }, status: :ok
     end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  end
+
+  def archive
+    archive_service = ArchiveService.new(current_user, params)
+    archive_service.call
+    if archive_service.success?
+      render json: { mycelium: MyceliumSerializer.render_as_json(archive_service.result), message: "Mycelium successfully archived" }, status: :ok
+    else
+      render json: { error: archive_service.error_details }, status: archive_service.error_code
+    end
+
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  end
+
+  def ready
+    mycelium = Mycelium.find(params[:id])
+    mycelium.update!(ready: params[:ready])
+    EventService.call(author_id: current_user.id, author_name: current_user.name, mycelium_id: params[:id], event_type: params[:ready] ? 'ready' : 'not_ready')
+    if params[:note].present?
+      EventService.call(author_id: current_user.id, author_name: current_user.name, mycelium_id: params[:id], event_type: "inspection", note: params[:note])
+    end
+
+    render json: { ready: params[:ready] }, status: :ok
+
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found
   end

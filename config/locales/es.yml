@@ -47,3 +47,8 @@ es:
     weight_required_message:
       success: "Has establecido el peso para cosechas anteriores, por favor, proporciónalo en este caso también."
       error: "El peso no se proporcionó en cosechas anteriores."
+  archive_service:
+    consumed: "Consumido"
+    contaminated: "Marcado como contaminado"
+    sold: "Vendido"
+    other: "Otra razón"

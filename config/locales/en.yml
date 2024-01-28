@@ -78,3 +78,8 @@ en:
     weight_required_message:
       success: "You set the weight for previous flushes, please provide it in this case as well."
       error: "Weight wasn't provided in previous flushes."
+  archive_service:
+    consumed: "Consumed"
+    contaminated: "Marked as contaminated"
+    sold: "Sold"
+    other: "Other reason"
