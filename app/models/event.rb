@@ -13,6 +13,7 @@ class Event < ApplicationRecord
     sold
     other
     ready
+    not_ready
   ].index_with(&:to_s)
 
   belongs_to :author, class_name: 'User'

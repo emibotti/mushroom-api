@@ -101,6 +101,7 @@ class MyceliaController < ApplicationController
   def ready
     mycelium = Mycelium.find(params[:id])
     mycelium.update!(ready: params[:ready])
+    EventService.call(author_id: current_user.id, author_name: current_user.name, mycelium_id: params[:id], event_type: params[:ready] ? 'ready' : 'not_ready')
     if params[:note].present?
       EventService.call(author_id: current_user.id, author_name: current_user.name, mycelium_id: params[:id], event_type: "inspection", note: params[:note])
     end
