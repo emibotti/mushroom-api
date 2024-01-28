@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     member do
       get :weight_required
       put :archive
-      put :ready_toggle
+      put :ready
     end
 
     resources :inspections

@@ -98,7 +98,7 @@ class MyceliaController < ApplicationController
     render json: { error: e.message }, status: :not_found
   end
 
-  def ready_toggle
+  def ready
     mycelium = Mycelium.find(params[:id])
     mycelium.update!(ready: params[:ready])
     if params[:note].present?
