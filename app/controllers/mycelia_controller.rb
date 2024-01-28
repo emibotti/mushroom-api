@@ -98,6 +98,19 @@ class MyceliaController < ApplicationController
     render json: { error: e.message }, status: :not_found
   end
 
+  def ready_toggle
+    mycelium = Mycelium.find(params[:id])
+    mycelium.update!(ready: params[:ready])
+    if params[:note].present?
+      EventService.call(author_id: current_user.id, author_name: current_user.name, mycelium_id: params[:id], event_type: "inspection", note: params[:note])
+    end
+
+    render json: { ready: params[:ready] }, status: :ok
+
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: e.message }, status: :not_found
+  end
+
   private
 
   def mycelium_params
