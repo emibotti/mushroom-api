@@ -33,21 +33,14 @@ RSpec.describe MyceliaController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:valid_attributes) do
-      attributes_for(:mycelium).merge(
-        type: 'Culture',
-        prefix: 'Prefix',
-        quantity: 5
-      )
-    end
-
+    let(:valid_attributes) { attributes_for(:mycelium) }
     let(:invalid_attributes) { valid_attributes.merge(prefix: nil) }
 
     context 'with valid params' do
       it 'creates the specified quantity of Mycelium' do
         expect {
-          post :create, params: { mycelium: valid_attributes, quantity: valid_attributes[:quantity] }
-        }.to change(Mycelium, :count).by(valid_attributes[:quantity])
+          post :create, params: { mycelium: valid_attributes, type: "Culture", quantity: 5 }
+        }.to change(Mycelium, :count).by(5)
       end
 
       it 'renders a JSON response with a success message' do
