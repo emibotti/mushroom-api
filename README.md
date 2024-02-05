@@ -1,6 +1,6 @@
 ## 🍄 Mushroom App API 🍄
 
-Welcome to the repository of the Mushroom App API, a Rails application designed to power the Mushroom Mobile App by providing an API for managing mushroom cultivation operations.
+Welcome to the repository of the Mushroom App API, a Rails application designed to power the [Mushroom Mobile App](https://github.com/emibotti/mushroom-mobile) by providing an API for managing mushroom cultivation operations.
 
 ### Table of Contents
 
@@ -34,7 +34,7 @@ To get the backend up and running, follow these steps:
 1. Clone the repository and move to the folder:
 
 ```bash
-git clone git@github.com:yourusername/mushroom-backend.git
+git clone git@github.com:emibotti/mushroom-backend.git
 cd mushroom-backend
 ```
 
