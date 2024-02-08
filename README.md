@@ -26,7 +26,7 @@ Before you begin, ensure you have the following installed:
 - Ruby 3.2.1
 - Rails 7.0.4.2
 - PostgreSQL
-- `wkhtmltopdf`: For PDF generation features in this application, `wkhtmltopdf` needs to be installed. Visit the [official wkhtmltopdf downloads page](https://wkhtmltopdf.org/downloads.html) to download the appropriate version for your operating system. Please follow the installation instructions provided on the site carefully and ensure you choose the correct package for your OS and architecture. Do not use `wkhtmltopdf` with untrusted HTML – be sure to sanitize any user-supplied HTML/JS to prevent security vulnerabilities.
+- wkhtmltopdf: For PDF generation features in this application, `wkhtmltopdf` needs to be installed. Visit the [official wkhtmltopdf downloads page](https://wkhtmltopdf.org/downloads.html) to download the appropriate version for your operating system. Do not use `wkhtmltopdf` with untrusted HTML – be sure to sanitize any user-supplied HTML/JS to prevent security vulnerabilities.
 
 ### Installation & Usage
 

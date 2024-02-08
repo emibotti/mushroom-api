@@ -1,8 +1,16 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_action :configure_permitted_parameters
   include RackSessionFix
   respond_to :json
+
+  def create
+    super do |user|
+      user.name = params[:user][:name]
+      user.save
+    end
+  end
 
   private
 
@@ -19,4 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :password_confirmation, :name])
+  end
 end
