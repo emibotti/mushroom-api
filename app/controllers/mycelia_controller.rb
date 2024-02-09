@@ -113,11 +113,11 @@ class MyceliaController < ApplicationController
   end
 
   def statistics
-    in_progess = Mycelium.where(ready: false)
+    in_progress = Mycelium.where(ready: false)
     ready = Mycelium.where(ready: true)
 
-    render json: { in_progess: { count: in_progess.count , mycelia: MyceliumSerializer.render(in_progess, view: :card) },
-                   ready: { count: ready.count , mycelia: MyceliumSerializer.render(ready, view: :card) } }, status: :ok
+    render json: { in_progress: { count: in_progress.count , mycelia: MyceliumSerializer.render_as_json(in_progress, view: :card) },
+                   ready: { count: ready.count , mycelia: MyceliumSerializer.render_as_json(ready, view: :card) } }, status: :ok
   end
 
   private
