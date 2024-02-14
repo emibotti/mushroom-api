@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     collection do
       get :options
       post :harvest
+      get :statistics
     end
 
     member do
