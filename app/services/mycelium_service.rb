@@ -21,7 +21,9 @@ class MyceliumService < ServiceObject
       mycelium_father = Mycelium.find(@mycelium_params[:strain_source_id])
 
       generation = mycelium_father.generation
-      generation += 1 if mycelium_father.type == @mycelium_params[:type]
+      if (mycelium_father.type == "Culture" or mycelium_father.type == "Spawn") and @mycelium_params[:type] == 'Spawn'
+        generation += 1
+      end
 
       species = mycelium_father.species
       # TODO: Validate if this value is going to change along inoculations
