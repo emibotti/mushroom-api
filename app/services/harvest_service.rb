@@ -21,7 +21,7 @@ class HarvestService < ServiceObject
         prefix_count.increment!(:count)
         prefix = bulk_father.name
         new_mycelium_params = @mycelium_params.merge({ name: "#{prefix + '-' + start_count.to_s}", species: bulk_father.species,
-                                                       strain_description: bulk_father.species, flush: bulk_father.flush,
+                                                       strain_description: bulk_father.strain_description, flush: bulk_father.flush,
                                                        container: bulk_father.container, substrate: bulk_father.substrate,
                                                        generation: bulk_father.generation, prefix: prefix })
         new_mycelium_params[:type] = 'Fruit'
