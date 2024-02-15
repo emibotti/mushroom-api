@@ -26,7 +26,7 @@ class Mycelium < ApplicationRecord
   ].index_with(&:to_s)
 
   enum substrate: %i[grain sawdust wood_chips straw compost gypsum coffee_grounds brown_rice_flour agar malt_extract agar_with_grain liquid_culture].index_with(&:to_s)
-  enum container: %i[petri_dish test_tube mason_jar spawn_bag bulk_tray].index_with(&:to_s)
+  enum container: %i[petri_dish test_tube mason_jar spawn_bag bulk_tray mushbug].index_with(&:to_s)
   enum archived: %i[consumed contaminated sold other].index_with(&:to_s)
 
 

@@ -16,7 +16,7 @@ es:
       cantharellus_cibarius: "Cantharellus Cibarius (Rebozuelo)"
       tuber_melanosporum: "Tuber Melanosporum (Trufa Negra)"
       cordyceps: "Cordyceps"
-      turkey_tail: "Trametes versicolor (Cola de pavo)"
+      trametes_versicolor: "Trametes versicolor (Cola de pavo)"
     substrates:
       grain: "Grano (Trigo, Centeno, Cebada)"
       sawdust: "Aserrín"
@@ -33,10 +33,11 @@ es:
       liquid_culture: "Cultivo Líquido"
     containers:
       petri_dish: "Placa de Petri"
-      test_tube: "Tubo de Ensayo"
+      test_tube: "Tubo de ensayo"
       mason_jar: "Frasco Mason"
-      spawn_bag: "Bolsa de Semilla"
-      bulk_tray: "Bandeja a Granel"
+      spawn_bag: "Bolsa de semilla"
+      bulk_tray: "Bandeja a granel"
+      mushbug: "Bolsa plástica"
   labels:
     species: "Especie"
     mycelium_name: "Nombre del micelio"

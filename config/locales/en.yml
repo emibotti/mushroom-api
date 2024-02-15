@@ -68,6 +68,7 @@ en:
       mason_jar: "Mason Jar"
       spawn_bag: "Spawn Bag"
       bulk_tray: "Bulk Tray"
+      mushbug: "Mushbag"
   labels:
     species: "Species"
     mycelium_name: "Mycelium name"
